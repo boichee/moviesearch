@@ -3,23 +3,6 @@
 // Set up the URI to the API
 var apiURI = "http://www.omdbapi.com/?";
 
-// Run a check to see if the entered string is a year
-
-function getYear(str)
-{
-	// Searches for a 4 digit year between 1900-2099
-	var result = /(19|20)[0-9]{2}/.exec(str);
-	
-	return result; // Returns null if no match found
-}
-
-function removeYearFromQuery(str)
-{
-	// Searches for a 4 digit year between 1900-2099
-	var result = str.replace(/(19|20)[0-9]{2}/, ""); // Replace the entered year with an empty string.
-	
-	return result; // Returns null if no match found
-}
 
 function isStringEmpty(str) {
 	if(str.trim().length <= 0) return true; 
@@ -103,7 +86,7 @@ function doSearch(imdbID)
 	// We should now have a correctly formatted query string, so build the complete API request URI
 
 	var requestURI = apiURI + apiQuery;
-	alert(requestURI);
+	// alert(requestURI); // For testing only
 
 	
 	
@@ -150,23 +133,10 @@ function layoutSearchResults (data)
 			
 			
 			$.each( val, function (key, val) {
-				
 				items.push("<a href='javascript:doSearch(\"" + val.imdbID + "\")'><div class='searchResult'><div class='movieDetails'><div class='movieTitle'>" + val.Title + "</div><div class='movieYear'>" + val.Year + "</div></div></div></a>");
-				
-			} 
-		);
-			
-			
-	  	}
-	);
-	/*
-	$( "<ul/>", {
-		
-		"class": "my-new-list",
-		html: items.join( "" )	}
-		
-	).appendTo( "#searchResults" );
-	*/
+			});	
+	  	});
+	
 	
 	$("<div/>", {
 		"id": "searchResults",
@@ -177,19 +147,19 @@ function layoutSearchResults (data)
 
 function layoutSingleMovie(data)
 {
-  	var items = [];
-  	$.each( data, 
-		function( key, val ) {
-			items.push( "<li id='" + key + "'>" + key + ": " + val + "</li>" );
-	  	}
-	);
 	
-	$( "<ul/>", {
-		
-		"id": "movieResult",
-		html: items.join( "" )	}
-		
-	).appendTo( "#searchResults" );
+	// Clean up any prior appends before doing it again
+	$('#outputContent').empty();
+	
+  	var htmlToSend = "";
+	
+	htmlToSend = '<div class="moviePoster"><img src="' + data.Poster + '" class="moviePoster" /> </div> <div id="shortFacts" class="movieFacts"> <div class="detailRowHead"> <h4>'+ data.Title +'</h4> </div> <div class="detailRows"> <div class="detailRow odd"> <p>'+ data.Plot +'<br /><a href="javascript:moreFacts()">more...</a></p> </div></div> </div> <div id="moreFacts" class="movieFacts"> <div class="detailRowHead"> <h4>'+ data.Title +'</h4> </div> <div class="detailRows"> <div class="detailRow odd"> <p>Year: '+ data.Year +'</p></div> <div class="detailRow"> <p>Writer(s): '+ data.Writer +'</p></div> <div class="detailRow odd"> <p>Director: '+ data.Director +'</p></div> <div class="detailRow"> <p>Actors: '+ data.Actors +'</p></div> <div class="detailRow odd"> <p><a href="javascript:lessFacts()">< Go back</a></p></div></div> </div>';
+ 
+$("<div/>", {
+	"id": "movieResult",
+	"class": "grid_8 prefix_2 suffix_2",
+	html: htmlToSend }).appendTo("#outputContent");
+
 }
 
 
@@ -212,8 +182,8 @@ function ajaxByHandParse(dataReceived) {
 	
 	var oJSON = JSON.parse(dataReceived);
 	
-	// alert (oJSON.Title);
-	// alert (oJSON.Runtime);
+	// alert (oJSON.Title); // For testing only
+	// alert (oJSON.Runtime); // For testing only
 	
 	return oJSON;
 	
@@ -270,11 +240,16 @@ function lessFacts()
 
 
 
+
 // Attach an event handler to the search button
 
 $(document).ready(function() {
 	$('#movieReturn').click(function() { doSearch('t') });
 	$('#movieSearch').click(function() { doSearch() });
+	$('#searchForm').submit(function () {
+		doSearch();
+	 return false;
+	});
 });
 
 
