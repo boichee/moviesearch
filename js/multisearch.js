@@ -151,8 +151,7 @@ function layoutSearchResults (data)
 			
 			$.each( val, function (key, val) {
 				
-				items.push("<li id='mov_" + val.imdbID + "'>" + "<a href='javascript:doSearch(\"" + val.imdbID + "\")'>"
-				+ val.Title + " (" + val.Year + ")" + "</a>" + "</li>");
+				items.push("<a href='javascript:doSearch(\"" + val.imdbID + "\")'><div class='searchResult'><div class='movieDetails'><div class='movieTitle'>" + val.Title + "</div><div class='movieYear'>" + val.Year + "</div></div></div></a>");
 				
 			} 
 		);
@@ -160,13 +159,19 @@ function layoutSearchResults (data)
 			
 	  	}
 	);
-	
+	/*
 	$( "<ul/>", {
 		
 		"class": "my-new-list",
 		html: items.join( "" )	}
 		
 	).appendTo( "#searchResults" );
+	*/
+	
+	$("<div/>", {
+		"id": "searchResults",
+		"class": "grid_8 prefix_2 suffix_2",
+		html: items.join("") }).appendTo("#outputContent");
 }
 
 
@@ -181,7 +186,7 @@ function layoutSingleMovie(data)
 	
 	$( "<ul/>", {
 		
-		"class": "my-new-list",
+		"id": "movieResult",
 		html: items.join( "" )	}
 		
 	).appendTo( "#searchResults" );
@@ -247,6 +252,19 @@ function ajaxByHand()
 	
 	req.open("GET","http://www.omdbapi.com/?t=Annie%20Hall&tomatoes=true", true);
 	req.send();
+}
+
+
+function moreFacts()
+{
+	$('#shortFacts').css('display', 'none');
+	$('#moreFacts').css('display', 'inline-block');
+}
+
+function lessFacts()
+{
+	$('#shortFacts').css('display', 'inline-block');
+	$('#moreFacts').css('display', 'none');
 }
 
 

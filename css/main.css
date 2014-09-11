@@ -132,6 +132,10 @@ div.grid_12 h2 {
 	background-color: #EEE;
 }
 
+#outputContent {
+	width:auto;
+}
+
 #searchResults {
 	background-color: #FFF;
 }
@@ -147,11 +151,11 @@ div.grid_12 h2 {
 .searchResult {
 	display:inline-block;
 	width:30%;
-	height:6em;
+	height:100%;
 	text-align: center;
 	border: 2px dotted #000;
 	background: #999;
-	margin:0.42em;
+	margin:0.3em;
 	color:#FFF;
 }
 
@@ -165,12 +169,12 @@ div.grid_12 h2 {
 }
 
 .movieDetails {
-	margin-top: 1.5em;
-	line-height: 1.8em;
+	margin: 0.5em 0.2em;
+	line-height: 1.4em;
 }
 
 .movieTitle {
-	font-size:1.4em;
+	font-size:1em;
 	font-weight: bold;
 }
 
@@ -184,12 +188,61 @@ div.grid_12 h2 {
 }
 
 .movieYear {
-	font-size:1.1em;
+	font-size:0.9em;
 	color:#DDD;
 }
 
 
+/* Movie Result Styles */
 
+#movieResult .moviePoster {
+	width: 300px;
+	float: left;
+	display:block;
+	border: 1px solid #999;
+}
+
+.movieFacts {
+	width: 42%;
+	margin: 0 0 0 2em;
+	float: right;
+	display: inline-block;
+	padding: 2px 10px;
+}
+
+.detailRowHead {
+	border-bottom: 1px solid #999;
+	margin-top: -20px;
+}
+
+.detailRowHead h4 {
+	font-size:1.2em;
+	margin: 0.3em 0em;
+}
+
+.detailRows {
+	border: 2px solid #999;
+}
+
+.detailRow {
+	padding: 0.05em .5em;
+	margin: 0;
+}
+
+.detailRow a{
+	color: inherit;
+}
+
+
+
+.detailRow.odd {
+	background-color: #666;
+	color: #EEEEEE;
+}
+
+#moreFacts {
+	display: none;
+}
 
 
 
