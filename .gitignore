@@ -1,0 +1,4 @@
+*.sublime*
+*~
+*.txt
+/doc/*

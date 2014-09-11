@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Find a Flick!</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/forms.css">
+        <!-- CSS -->
+        <link rel="stylesheet" media="all" type="text/css" href="css/grid960.css" />
+
+
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+		  google.load("search", "1");
+		</script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+         <div id="holdsall" class="container_12">
+			 <div class="grid_12">
+				 <!-- Header Area -->
+				 <h2>Find a Flick!</h2>
+			 	
+			 </div>
+			 <div class="clear"></div>
+			 <form action="#" accept-charset="utf-8" id="searchForm">
+			 <div class="grid_8 prefix_2 suffix_2">
+				 <!-- Search Box -->
+				 <input type="text" name="movieQuery" placeholder="Movie title or year" value="" id="movieQuery" class="searchField">
+			 </div>
+			 <div class="clear"></div>
+			 <div class="grid_6 prefix_2">
+				 <!-- Submit -->
+				 <input type="button" name="movieSearch" value="Find it!" id="movieSearch" class="searchButton">
+			 </div>
+			 <div class="grid_2 suffix_2">
+				 <input type="button" name="movieReturn" value="Best Match" id="movieReturn" class="searchButton">
+			 </div>
+			 <div class="clear"></div>
+			 </form>
+			 <div id="searchResults" class="grid_8 prefix_2 suffix_2">
+				 <!-- Retrieved Content Area -->
+				 
+			 </div>
+			 <div class="clear"></div>
+		 </div>
+        
+        
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/multisearch.js"></script>
+
+    </body>
+</html>

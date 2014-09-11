@@ -1,0 +1,46 @@
+form.searchform {
+	margin: 20px 0 0 20px;
+}
+
+form.searchform fieldset {
+  margin-bottom: 10px;
+}
+form.searchform legend {
+  padding: 0 2px;
+  font-weight: bold;
+}
+form.searchform label {
+  display: inline-block;
+  line-height: 1.8;
+  vertical-align: top;
+}
+form.searchform fieldset ol {
+  margin: 0;
+  padding: 0;
+}
+form.searchform fieldset li {
+  list-style: none;
+  padding: 5px;
+  margin: 0;
+}
+form.searchform fieldset fieldset {
+	border:none;
+  margin: 3px 0 0;
+}
+form.searchform fieldset fieldset legend {
+  padding: 0 0 5px;
+  font-weight: normal;
+}
+form.searchform fieldset fieldset label {
+	margin-left:10px;
+  width: auto;
+}
+
+form.searchform em {
+  font-weight: bold;
+  font-style: normal;
+  color: #f00;
+}
+form.searchform label {
+  width: 120px; /* Width of labels */
+}
