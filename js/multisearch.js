@@ -69,7 +69,7 @@ function continueSearch(frm_searchForm, options, imdbID)
 		// imdbID not set so we're dealing with a search, not a link click
 		// Determine which title param to use based on options argument (either: s|t)
 		var titleKey = (options !== undefined && options == 'dblClick') ? "t" : "s";
-		alert (titleKey);
+		// alert (titleKey); // Testing only
 		oMovieSearch[titleKey] = frm_searchForm.frm_movieQuery.value;
 		oLastSearch.title = frm_searchForm.frm_movieQuery.value;
 		frm_searchForm.frm_movieQuery.value = ""; // clear field
@@ -101,7 +101,7 @@ function continueSearch(frm_searchForm, options, imdbID)
 	// Now create the complete request
 	var requestURI = apiURI + apiQuery;
 	
-	alert (apiQuery);
+	// alert (apiQuery); // Testing only
 	
 	// Request prepped, now send OMDB API and decide how to process results
 	
@@ -114,7 +114,7 @@ function continueSearch(frm_searchForm, options, imdbID)
 				
 				if (data.Search.length == 1) {
 					// unless only 1 result was returned, then just show that result
-					layoutSingleMovie(data);
+					continueSearch(false, false, data.Search[0].imdbID);
 					
 				} else layoutSearchResults(data);
 				
