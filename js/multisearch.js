@@ -159,8 +159,8 @@ function layoutSearchResults (data)
 	// Now prep the display about the search itself
 	var queryString = oLastSearch.title;
 	// Add the year if one was entered
-	queryString = (oLastSearch.year.length > 0) ? queryString + ' (' + oLastSearch.year + ')' : "";
-	var queryDisplayHtml = '<h1>You searched for:</h1><h3>'+ queryString +'</h3><p>And got '+ counter +' results.</p>';
+	queryString = (oLastSearch.year.length > 0) ? queryString + ' (' + oLastSearch.year + ')' : queryString;
+	var queryDisplayHtml = '<h1>You searched for:</h1><h3>"'+ queryString +'"</h3><p>And got '+ counter +' results.</p>';
 	
 		// Output all prepped, so append the html in the appropriate locations on screen
 		// First make sure those elements are empty.
