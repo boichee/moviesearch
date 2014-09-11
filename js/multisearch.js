@@ -14,6 +14,7 @@ function isStringEmpty(str) {
 
 function startSearch(frm_searchForm, options, imdbID)
 {	
+	
 	// Validate the form before continuing to process
 	if (frm_searchForm.frm_movieQuery.value.trim().length == 0) {
 		// If no title entered, return with an error message
@@ -130,7 +131,7 @@ function continueSearch(frm_searchForm, options, imdbID)
 				// If t or i were set, then we should only have 1 result
 				layoutSingleMovie(data);
 			} else {
-				// Just in case of error
+				// Catch any other errors that might occur
 				alert ("An unknown error occurred. Please try again.");
 				return false;
 			}
@@ -204,7 +205,7 @@ function layoutSingleMovie(data)
 
 $(document).ready(function() {
 	$('#frm_doSearch').click(function() { startSearch(this.form) });
-	$('#frm_doSearch').dblclick(function() { startSearch(this.form, true)});
+	$('#frm_doSearch').dblclick(function() { startSearch(this.form, 'dblClick')});
 	$('#frm_searchForm').submit(function () {
 		startSearch(this.form);
 	 	return false;
