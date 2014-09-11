@@ -120,6 +120,8 @@ div.grid_12 h2 {
 	height: 48px;
 	font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
 	font-size: 1em;
+	background: #FFF;
+	border: 1px dotted #999;
 }
 
 #movieSearch.searchButton {
@@ -134,8 +136,57 @@ div.grid_12 h2 {
 	background-color: #FFF;
 }
 
+/* Search Result Styles */
+
+#searchResults h3 {
+	color: #555;
+	font-size: 1.1em;
+}
 
 
+.searchResult {
+	display:inline-block;
+	width:30%;
+	height:6em;
+	text-align: center;
+	border: 2px dotted #000;
+	background: #999;
+	margin:0.42em;
+	color:#FFF;
+}
+
+.searchResult:hover {
+	background: #EEE;
+	color: #333;
+}
+
+.searchResult:hover .movieYear {
+	color: #666;
+}
+
+.movieDetails {
+	margin-top: 1.5em;
+	line-height: 1.8em;
+}
+
+.movieTitle {
+	font-size:1.4em;
+	font-weight: bold;
+}
+
+.movieTitle a{
+	text-decoration: none;
+	color: inherit;
+}
+
+.movieTitle a:hover {
+	text-decoration: underline;
+}
+
+.movieYear {
+	font-size:1.1em;
+	color:#DDD;
+}
 
 
 
