@@ -109,6 +109,14 @@ function continueSearch(frm_searchForm, options, imdbID)
 		
 		function( data ) {
 			
+			// Check to make sure the search created results before proceeding
+			if(data.Search === undefined) {
+				// TODO: replace the alert below with a function to display the error in the interface.
+				alert ("No movies could be found based on your search. Try again.");
+				return false;
+			}
+			
+			
 			if (oMovieSearch.s) {
 				// If we did a "search" we'll display results
 				
@@ -132,11 +140,6 @@ function continueSearch(frm_searchForm, options, imdbID)
 
 function layoutSearchResults (data)
 {
-	// Check to make sure results were received before processing
-	if(data.Search === undefined) {
-		alert ("No movies could be found based on your query. Try again.");
-		return false;
-	}
 	
 	// Prep the search results for display
 	var counter = 0; // set up an iterative counter to start a row every 3 results
