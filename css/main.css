@@ -108,6 +108,7 @@ div.grid_12 h2 {
 
 .searchField, .searchButton {
 	width: 100%;
+	padding: 0.3em;
 }
 
 .searchField {
