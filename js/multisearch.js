@@ -111,11 +111,19 @@ function doSearch(imdbID)
 		
 		function( data ) {
 			
-			if (data.Search) { // That is, if a search with multiple results has been returned
+			if (data.Search && data.Search.length > 1) { // That is, if a search with multiple results has been returned
 				
 				layoutSearchResults(data);
 				
 			} else { // If we only have a single object to parse through.
+				
+				if (data.Search && data.Search.length == 1) {
+					// Only 1 search result returned. Go straight to single-item display with just that item.
+					var imdbId = data.Search[0].imdbID;
+					data = null; // Unset the data object to avoid an endless loop.
+					doSearch(imdbId);
+					return;
+				}
 				
 				layoutSingleMovie(data);
 				
