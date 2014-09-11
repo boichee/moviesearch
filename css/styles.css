@@ -1,0 +1,13 @@
+/* Extra styles to add to Bootstrap */
+
+
+h3, .h3 {
+	margin-top:0px;
+}
+
+footer {
+	position:relative;
+	left:90%;
+	bottom:-15px;
+	color: white;
+}
