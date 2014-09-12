@@ -84,10 +84,76 @@ function setSortOrder(order) {
 	$('#sort_dropdown_link_byOrder').text(order);
 }
 
+function searchWithPopState(){
+	// On user back button, grab the browser state object and set up a search with the params
+	var state = window.history.state;
+	
+	if (state.length != 0) { // If there is a state in the history, then prep for search
+		var stateObj = JSON.parse(window.history.state);
+		
+		// Grab the form fields so you can update them
+		var frmTitle = $('#frm_movieQuery').get(0);
+		var frmYear = $('#frm_movieYear').get(0);
+		
+		// Now set up an api call to send to the searcher
+		var uri = "s=" + encodeURIComponent(stateObj.Title);
+		oLastSearch.title = stateObj.Title;
+		frmTitle.value = stateObj.Title;
+	
+		// Also assign the Year if that was included in the object
+		oLastSearch.year = undefined;
+		frmYear.value = "";
+		if (stateObj.Year !== undefined) {
+			 uri = uri + "&y=" + stateObj.Year;
+			 oLastSearch.year = stateObj.Year;
+			 frmYear.value = stateObj.Year;
+		 }
+		 
+		
+		// Run the pop state search
+		runPopStateSearch(uri);
+	} else {
+		return; // If no state in history, stop here.
+	}
+	
+	
+}
+
+function runPopStateSearch(uri) {
+	
+	
+	var requestURI = apiURI + uri;
+	
+	
+	$.getJSON( requestURI, 
+		
+		function( data ) {
+			
+			// Check to make sure the search created results before proceeding
+			if(data.Search === undefined) {
+				displayUserError("No movies could be found based on your search. Try again.");
+				return false;
+			}
+			
+			if (data.Search.length == 1) {
+				// unless only 1 result was returned, then just show that result
+				continueSearch(false, false, data.Search[0].imdbID);
+				
+			} else layoutSearchResults(data);
+			
+		}
+	);
+}
+
 // Searches for any movies matching the input string
 
 function startSearch(frm_searchForm, options, imdbID)
-{	
+{
+	
+	if(frm_searchForm === undefined) {
+		// If the form is undefined, define it.
+		frm_searchForm = $('#frm_searchForm').get(0);
+	}	
 	
 	// Validate the form before continuing to process
 	if (frm_searchForm.frm_movieQuery.value.trim().length == 0) {
@@ -120,7 +186,10 @@ function grabLongPlot(imdbID) {
 			$('#outputPlot').append(data.Plot);
 			
 		}
-	);	
+	);
+	
+	// Remove the "full plot" button for consistency
+	$('#longPlotButton').remove();	
 }
 
 function continueSearch(frm_searchForm, options, imdbID)
@@ -147,12 +216,12 @@ function continueSearch(frm_searchForm, options, imdbID)
 		// alert (titleKey); // Testing only
 		oMovieSearch[titleKey] = frm_searchForm.frm_movieQuery.value;
 		oLastSearch.title = frm_searchForm.frm_movieQuery.value;
-		frm_searchForm.frm_movieQuery.value = ""; // clear field
+		// frm_searchForm.frm_movieQuery.value = ""; // clear field
 	
 		// Now fill the "y" (aka 'year') param
 		oMovieSearch.y = frm_searchForm.frm_movieYear.value;
 		oLastSearch.year = frm_searchForm.frm_movieYear.value;
-		frm_searchForm.frm_movieYear.value = ""; // clear field
+		// frm_searchForm.frm_movieYear.value = ""; // clear field
 	}
 	
 	// Prep AJAX Query
@@ -175,6 +244,20 @@ function continueSearch(frm_searchForm, options, imdbID)
 	
 	// Now create the complete request
 	var requestURI = apiURI + apiQuery;
+	
+	// also create a friendly URL for pushState to use
+	var pushStateString = "/";
+	var pushStateObject = '{';
+	if (oMovieSearch.s) {
+		pushStateString = pushStateString + oMovieSearch.s;
+		pushStateObject = pushStateObject + '"Title": "' + oMovieSearch.s + '"';
+	}
+	if (oMovieSearch.y) {
+		pushStateString = pushStateString + "/" + oMovieSearch.y;
+		pushStateObject = pushStateObject + ', "Year": "' + oMovieSearch.y + '"';
+	}
+	pushStateObject = pushStateObject + '}';
+//	var pushStateString = apiQuery.replace('&', "/");
 	
 	// alert (apiQuery); // Testing only
 	
@@ -208,6 +291,12 @@ function continueSearch(frm_searchForm, options, imdbID)
 				displayUserError("An unknown error occurred. Please try again.");
 				return false;
 			}
+			
+			// Now we know that the search was executed, so add loc to browser bar
+			// Detect if pushState is available
+			if(history.pushState) {
+				history.pushState(pushStateObject, null, pushStateString); 
+			}
 		}
 	);	
 }
@@ -230,13 +319,14 @@ function layoutSearchResults (data)
 			if (counter % 3 == 0) items.push('<div class="row">');
 			counter++;
 			
-			items.push('<div class="col-md-4"><h2>'+val.Title+'</h2><p>'+val.Year+'</p><p><a class="btn btn-default" href="javascript:continueSearch(false, false, \''+val.imdbID+'\')" role="button" target="_blank">Select this movie &raquo;</a></p></div>');	
+			items.push('<div class="col-md-4"><h2><a href="javascript:continueSearch(false, false, \''+val.imdbID+'\')">'+val.Title+'</a></h2><p>'+val.Year+'</p><p><a class="btn btn-default" href="javascript:continueSearch(false, false, \''+val.imdbID+'\')" role="button" target="_blank">Select this movie &raquo;</a></p></div>');	
 	  	});
 		
 	// Now prep the display about the search itself
-	var queryString = oLastSearch.title;
+	var queryString = "";
+	queryString = oLastSearch.title;
 	// Add the year if one was entered
-	queryString = (oLastSearch.year.length > 0) ? queryString + ' (' + oLastSearch.year + ')' : queryString;
+	queryString = (oLastSearch.year && oLastSearch.year.length > 0) ? queryString + ' (' + oLastSearch.year + ')' : queryString;
 	var queryDisplayHtml = '<h1>You searched for:</h1><h3>"'+ queryString +'"</h3><p>And got '+ counter +' results.</p>';
 	
 		// Output all prepped, so append the html in the appropriate locations on screen
@@ -259,7 +349,7 @@ function layoutSingleMovie(data)
 	$('#mainOutput').empty();
 	$('#detailsOutput').empty();
 	
-	var mainOutputHtml = '<h1>' + data.Title + '</h1><h3>'+ data.Year +'</h3><p id="outputPlot">'+ data.Plot +'</p><p><a href="javascript:grabLongPlot(\''+ data.imdbID +'\')" class="btn btn-primary btn-lg" role="button">More &raquo;</a></p>';
+	var mainOutputHtml = '<h1>' + data.Title + '</h1><h3>'+ data.Year +'</h3><p id="outputPlot">'+ data.Plot +'</p><p><a id="longPlotButton" href="javascript:grabLongPlot(\''+ data.imdbID +'\')" class="btn btn-primary btn-lg" role="button">Full Plot &raquo;</a></p>';
 		
 	var detailsOutputHtml = '<div class="col-md-3"><h2>Writer(s)</h2><p>'+ data.Writer +'</p></div><div class="col-md-3"><h2>Director</h2><p>'+ data.Director +'</p></div><div class="col-md-3"><h2>Actors</h2><p>'+ data.Actors +'</p></div><div class="col-md-3"><p><img src="'+ data.Poster +'" alt="'+ data.Title +' Poster" style="height:300px;width:100%"></p>  </div>';
 	
@@ -288,7 +378,32 @@ function layoutSingleMovie(data)
 $(document).ready(function() {
 	$('#frm_doSearch').click(function() { startSearch(this.form) });
 	$('#frm_doSearch').dblclick(function() { startSearch(this.form, 'dblClick')});
-	$('#frm_searchForm').submit(function() { startSearch(this.form); return false;	});
+	$( "#frm_movieQuery" ).keypress(function( event ) {
+	  if ( event.which == 13 ) {
+	     event.preventDefault();
+		 startSearch( $('#frm_searchForm').get(0) );
+	  }
+	});
+	$( "#frm_movieYear" ).keypress(function( event ) {
+	  if ( event.which == 13 ) {
+	     event.preventDefault();
+		 startSearch( $('#frm_searchForm').get(0) );
+	  }
+	});
+});
+
+
+// Handle PopState to run a search on user hitting the "back" button
+var popped = ('state' in window.history && window.history.state !== null), initialURL = location.href;
+
+$(window).bind('popstate', function (event) {
+  // Ignore inital popstate that some browsers fire on page load
+  var initialPop = !popped && location.href == initialURL
+  popped = true
+  if (initialPop) return;
+
+  searchWithPopState();
+  
 });
 
 
