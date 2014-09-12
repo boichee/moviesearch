@@ -1,4 +1,4 @@
-*Created On 9/9/14: Project Init**
+**Created on 9/10/14**
 
 # Moviesearch: A code challenge
 ## Sponsored by: GeneralAssemb.ly
