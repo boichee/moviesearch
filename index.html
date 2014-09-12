@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Jumbotron Template for Bootstrap</title>
+    <title>MovieSearch - Everyone's got a favorite</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -60,8 +60,30 @@
         <p>Enter a title to begin your search. You can also add a year to narrow things down.</p>
       </div>
     </div>
+	<div class="container">
+		<div id="sort_dropdown" class="row">
+			    <ul class="nav nav-pills">
+			      <li class="active"><a href="javascript:sortResults()">Sort Results</a></li>
+			      <li class="dropdown">
+			        <a id="sort_dropdown_link_byField" role="button" data-toggle="dropdown" href="#">(by Field)<span class="caret"></span></a>
+			        <ul id="sort_dropdown_byField" class="dropdown-menu" role="menu" aria-labelledby="sort_dropdown_link_byField">
+			          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:setSortField('Title')">Title</a></li>
+			          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:setSortField('Year')">Year</a></li>
+			        </ul>
+			      </li>
+			      <li class="dropdown">
+			        <a id="sort_dropdown_link_byOrder" role="button" data-toggle="dropdown" href="#">(Order)<span class="caret"></span></a>
+			        <ul id="sort_dropdown_byField" class="dropdown-menu" role="menu" aria-labelledby="sort_dropdown_byOrder">
+			          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:setSortOrder('Ascending')">Ascending</a></li>
+			          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:setSortOrder('Descending')">Descending</a></li>
+			        </ul>
+			      </li>
+			  </ul>
+		</div>
+	</div>
 
     <div id="detailsOutput" class="container">
+
       <!-- Example row of columns -->
 	 </div>
 	 <div class="container">

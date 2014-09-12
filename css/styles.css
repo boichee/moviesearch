@@ -11,3 +11,8 @@ footer {
 	bottom:-15px;
 	color: white;
 }
+
+
+#sort_dropdown {
+	display:none;
+}

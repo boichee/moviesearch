@@ -3,11 +3,75 @@
 // Set up the URI to the API
 var apiURI = "http://www.omdbapi.com/?";
 var oLastSearch = new Object();
+var aSearchResults = []; // Will hold the latest round of search results for sorting
+
+var searchResults_Sorter = new Object(); // holds sorting choices from user
 
 
 function isStringEmpty(str) {
 	if(str.trim().length <= 0) return true; 
 	else return false;
+}
+
+function sortAscending(a, b, sortKey) {
+	if (a[sortKey] < b[sortKey])
+	     return -1;
+	if (a[sortKey] > b[sortKey])
+	    return 1;
+	return 0;
+}
+
+function sortDescending(a, b, sortKey) {
+	if (a[sortKey] > b[sortKey])
+	     return -1;
+	if (a[sortKey] < b[sortKey])
+	    return 1;
+	return 0;
+}
+
+
+function sortResults(sortKey) {
+	
+	if(sortKey === undefined) sortKey = searchResults_Sorter.field;
+	
+	// Now check if we should be sorting ascending or descending
+	if (searchResults_Sorter.order == "Descending") {
+		aSearchResults.sort(function(a, b) {
+			return sortDescending(a, b, sortKey);
+		});
+	} else {
+		// Sort the results by the given object sortKey
+		aSearchResults.sort(function(a, b) {
+			return sortAscending(a, b, sortKey);
+		});
+	}
+	
+	// Send the newly sorted results to the search layout function to be re-displayed.
+	layoutSearchResults(aSearchResults);
+	
+}
+
+function setSortField(field) {
+	searchResults_Sorter.field = field;
+	$('#sort_dropdown_link_byField').text(field);
+	
+	
+	// TODO: Add code to remove the chosen element from the dropdown and to add it back later when another element is chosen.
+	// $children = $('#sort_dropdown_byField').children();
+	
+	// Now go through the children and check sortkey to see which one to remove
+	/*$children.each(function(i) {
+		if (this.children[0].text == field) this.remove();
+	});*/
+	
+	
+	
+}
+
+function setSortOrder(order) {
+	
+	searchResults_Sorter.order = order;
+	$('#sort_dropdown_link_byOrder').text(order);
 }
 
 // Searches for any movies matching the input string
@@ -111,7 +175,7 @@ function continueSearch(frm_searchForm, options, imdbID)
 		function( data ) {
 			
 			// Check to make sure the search created results before proceeding
-			if(data.Search === undefined) {
+			if(oMovieSearch.s !== undefined && data.Search === undefined) {
 				// TODO: replace the alert below with a function to display the error in the interface.
 				alert ("No movies could be found based on your search. Try again.");
 				return false;
@@ -141,11 +205,15 @@ function continueSearch(frm_searchForm, options, imdbID)
 
 function layoutSearchResults (data)
 {
+	var dataToProcess = (data.Search !== undefined) ? data.Search : data;
+	
+	// Set aSearchResults (global) to dataToProcess
+	aSearchResults = dataToProcess;
 	
 	// Prep the search results for display
 	var counter = 0; // set up an iterative counter to start a row every 3 results
   	var items = [];
-  	$.each( data.Search, 
+  	$.each( dataToProcess, 
 		function( key, val ) {
 			
 			// Check what iteration we're at and add the appropriate row divs
@@ -170,6 +238,8 @@ function layoutSearchResults (data)
 		// Now append
 		$('#mainOutput').append(queryDisplayHtml);
 		$('#detailsOutput').append(items.join(""));
+		
+		$('#sort_dropdown').css('display', 'block');
 }
 
 
@@ -197,6 +267,9 @@ function layoutSingleMovie(data)
 	$("<div/>", {
 	"class": "row",
 	html: detailsOutputHtml }).appendTo("#detailsOutput");
+	
+	// Remove the sorting row
+	$('#sort_dropdown').css('display', 'none');
 
 }
 
