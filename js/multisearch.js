@@ -7,6 +7,16 @@ var aSearchResults = []; // Will hold the latest round of search results for sor
 
 var searchResults_Sorter = new Object(); // holds sorting choices from user
 
+// Displays error messages to the user using Bootstrap modal dialogs
+function displayUserError(errorMsg){
+	$('#errorModalDisplay').text(errorMsg);
+	$('#errorModal').modal();
+	
+	$('#errorModal').on('hidden.bs.modal', function (e) {
+	  // Now remove the text added for the error display
+	  $('#errorModalDisplay').text("");
+	});
+}
 
 function isStringEmpty(str) {
 	if(str.trim().length <= 0) return true; 
@@ -82,7 +92,7 @@ function startSearch(frm_searchForm, options, imdbID)
 	// Validate the form before continuing to process
 	if (frm_searchForm.frm_movieQuery.value.trim().length == 0) {
 		// If no title entered, return with an error message
-		alert ("You must enter at least a title to search for a movie.");
+		displayUserError("You must enter at least a title to search for a movie.");
 		return false;
 	}
 	
@@ -176,8 +186,7 @@ function continueSearch(frm_searchForm, options, imdbID)
 			
 			// Check to make sure the search created results before proceeding
 			if(oMovieSearch.s !== undefined && data.Search === undefined) {
-				// TODO: replace the alert below with a function to display the error in the interface.
-				alert ("No movies could be found based on your search. Try again.");
+				displayUserError("No movies could be found based on your search. Try again.");
 				return false;
 			}
 			
@@ -196,7 +205,7 @@ function continueSearch(frm_searchForm, options, imdbID)
 				layoutSingleMovie(data);
 			} else {
 				// Catch any other errors that might occur
-				alert ("An unknown error occurred. Please try again.");
+				displayUserError("An unknown error occurred. Please try again.");
 				return false;
 			}
 		}
