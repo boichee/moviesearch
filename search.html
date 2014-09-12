@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>MovieSearcher - Everyone's got a favorite</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/jumbotron.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">OMDB Movie Search</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form action="#" class="navbar-form navbar-right" role="form" id="frm_searchForm" accept-charset="utf-8">
+            <div class="form-group">
+              <input name="frm_movieQuery" id="frm_movieQuery" type="text" placeholder="Search for a movie" class="form-control">
+            </div>
+            <div class="form-group">
+              <input name="frm_movieYear" id="frm_movieYear" type="text" placeholder="Movie year (optional)" class="form-control">
+            </div>
+            <input type="button" name="frm_doSearch" id="frm_doSearch" value="Search" class="btn btn-success">
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+
+
+	<!-- Small modal for displaying error messages to the user -->
+	<div id="errorModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	          <h4 class="modal-title" id="errorModalLabel">An error occured...</h4>
+	        </div>
+	        <div id="errorModalDisplay" class="modal-body">
+	          
+	        </div>
+	      </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	  </div><!-- /.modal -->
+	<!-- End Modal Code-->
+	
+    <div class="jumbotron">
+      <div id="mainOutput" class="container">
+        <h1>MovieSearcher</h1>
+        <p>Enter a title to begin your search. You can also add a year to narrow things down.</p>
+      </div>
+    </div>
+	<div class="container">
+		<div id="sort_dropdown" class="row">
+			    <ul class="nav nav-pills">
+			      <li class="active"><a href="javascript:sortResults()">Sort Results</a></li>
+			      <li class="dropdown">
+			        <a id="sort_dropdown_link_byField" role="button" data-toggle="dropdown" href="#">(by Field)<span class="caret"></span></a>
+			        <ul id="sort_dropdown_byField" class="dropdown-menu" role="menu" aria-labelledby="sort_dropdown_link_byField">
+			          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:setSortField('Title')">Title</a></li>
+			          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:setSortField('Year')">Year</a></li>
+			        </ul>
+			      </li>
+			      <li class="dropdown">
+			        <a id="sort_dropdown_link_byOrder" role="button" data-toggle="dropdown" href="#">(Order)<span class="caret"></span></a>
+			        <ul id="sort_dropdown_byField" class="dropdown-menu" role="menu" aria-labelledby="sort_dropdown_byOrder">
+			          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:setSortOrder('Ascending')">Ascending</a></li>
+			          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:setSortOrder('Descending')">Descending</a></li>
+			        </ul>
+			      </li>
+			  </ul>
+		</div>
+	</div>
+
+    <div id="detailsOutput" class="container">
+
+      <!-- Example row of columns -->
+	 </div>
+	 <div class="container">
+		 <p><br /><br /><br /></p>
+	 </div>
+	 
+	 <div class="navbar navbar-inverse navbar-fixed-bottom" role="footer">
+      <footer>
+        <p>&copy; Nomad 2014</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/moviesearcher.js"></script>
+  </body>
+</html>
