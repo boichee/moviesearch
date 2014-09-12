@@ -206,10 +206,7 @@ function layoutSingleMovie(data)
 $(document).ready(function() {
 	$('#frm_doSearch').click(function() { startSearch(this.form) });
 	$('#frm_doSearch').dblclick(function() { startSearch(this.form, 'dblClick')});
-	$('#frm_searchForm').submit(function () {
-		startSearch(this.form);
-	 	return false;
-	});
+	$('#frm_searchForm').submit(function() { startSearch(this.form); return false;	});
 });
 
 
