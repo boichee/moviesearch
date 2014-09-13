@@ -6,7 +6,7 @@
 
 var intervalID;
 
-function omdbSearch () {
+function omdbSearch() {
     this.args = []; // An array to hold omdbSearchArgument
     this.searchResults = {}; // Will hold the results of the search as an object (once parsed from JSON)
     this.regExForDate = /(?:19|20)\d{2}/; // for date string validation: makes sure date is 4 chars and between 1900-2099
@@ -97,12 +97,8 @@ omdbSearch.prototype = {
     	}
     }
 
-
-
-
-
-
 };
+
 
 function omdbSearchArg (argName, argKey, argValue) {
 	this.argName = argName;
@@ -133,7 +129,7 @@ function outputToConsole() {
 	}
 }
 
-function outputData() {
+function searchViewController() {
 	if (MovieSearcher.bSearchComplete) {
 		// If the search has been completed, then update the DOM
 		layoutSearchResults(MovieSearcher.getSearchResults());
@@ -207,12 +203,12 @@ function searchOMDB() {
 		return false;
 	}
 
-	// Create a function to keep things moving after the async request for the sake of separation of MVVC
+	// callBack sets the view controller in motion after success (200) received from XHR request
 	var callBack = function() {
-		outputData();
+		searchViewController();
 	}
 
-	// Everything, ok? Then run the search!
+	// Run the search with the properties applied to the search object
 	MovieSearcher.searchAPI(callBack);
 
 }
@@ -237,10 +233,31 @@ $(document).ready(function() {
 	});
 });
 
+// Set up the search object as a global "~singleton" (only one search object at a time per page)
+var MovieSearcher;
 
-var MovieSearcher; // set up the global seach object 
-var intervalID; // set an intervalID so I can cancel it later
 
+/* 	TODO: eventsRunLoop() does NOT actually do any work yet, it's just a test of the concept.
+So far, it's writing to the console properly when the XHR call is complete, but I definitely want
+to test this further and experiment with other possible implementations to see what's most responsive
+and what implementation uses the least resources. I'll eventually have to add code to call 
+the function/method that controls the search view, at which point I'll be able to remove 
+the "callBack" structure from omdbSearch.searchAPI(); */
+
+// Set up the runLoop
+function eventsRunLoop() {
+	try {
+		if (MovieSearcher && MovieSearcher.bSearchComplete) {
+			console.log ("The search was completed. bSearchComplete = " + MovieSearcher.bSearchComplete);
+			clearInterval(intervalID);
+		};
+	} catch (e) {
+			console.log (e);
+	}
+}
+
+// Use setInterval to create a run loop capable of watching for a condition and triggering code based on that condition
+var intervalID = setInterval(function() { eventsRunLoop() }, 100); // set an intervalID so I can cancel it later
 
 
 
