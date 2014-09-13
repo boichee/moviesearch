@@ -75,12 +75,14 @@ omdbSearch.prototype = {
     	return true; // If we're here, then no errors found
     },
 
-    searchAPI: function() {
+    searchAPI: function(callBack) {
     	$.getJSON(this.createQuery(), function( data ) {
     		MovieSearcher.searchResults = data;
 
     		// Once data has been returned, mark flag to true so DOM functions can take over
     		MovieSearcher.bSearchComplete = true; 
+
+    		callBack();
     	});
 
     },
@@ -134,10 +136,10 @@ function outputToConsole() {
 function outputData() {
 	if (MovieSearcher.bSearchComplete) {
 		// If the search has been completed, then update the DOM
-		clearInterval(intervalID);
 		layoutSearchResults(MovieSearcher.getSearchResults());
 	
-	};
+	} else 
+		throw "Error. Async request not yet complete. Cannot output results.";
 
 }
 
@@ -205,11 +207,13 @@ function searchOMDB() {
 		return false;
 	}
 
-	// Everything, ok? Then run the search!
-	MovieSearcher.searchAPI();
+	// Create a function to keep things moving after the async request for the sake of separation of MVVC
+	var callBack = function() {
+		outputData();
+	}
 
-	// Now run an interval and wait until data is received
-	intervalID = setInterval(function(){ outputData() }, 100);
+	// Everything, ok? Then run the search!
+	MovieSearcher.searchAPI(callBack);
 
 }
 
